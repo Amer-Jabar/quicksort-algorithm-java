@@ -7,7 +7,7 @@ public class QuickSort {
     
     public static void main(String[] args) {
         
-        int[] arr = new int[20];
+        int[] arr = new int[10];
         for ( int x = 0; x < arr.length; x++ ) {
             arr[x] = new Random().nextInt(20);
         }
@@ -18,31 +18,35 @@ public class QuickSort {
     }
     
     public static void sort(int[] arr, int l, int h) {
-        partition(arr, l, h);
+        if ( l < h ) {
+            int pivot = partition(arr, l, h);            
+            sort(arr, l, pivot - 1);
+            sort(arr, pivot + 1, h);
+        }
     }
     
-    public static void partition(int[] arr, int l, int h) {
+    public static int partition(int[] arr, int l, int h) {
         
-        int pivot = 0;
-        System.err.println("The pivot is: " + arr[pivot]);
-        int leftToRight = 1;
-        int rightToLeft = arr.length - 1;
+        int pivot = arr[l];
+        int leftToRight = l + 1;
+        int rightToLeft = h;
         
         while ( true ) {
             
-            while ( leftToRight < arr.length - 1 && arr[leftToRight] < arr[pivot] )
+            while ( leftToRight < h && arr[leftToRight] < pivot )
                 leftToRight++;
             
-            while ( rightToLeft > 0 && arr[rightToLeft] > arr[pivot] )
+            while ( rightToLeft > l && arr[rightToLeft] > pivot )
                 rightToLeft--;
             
-            if ( rightToLeft <= leftToRight ) {
-                swap(arr, rightToLeft, pivot);
+            if ( rightToLeft < leftToRight ) {
+                swap(arr, rightToLeft, l);
                 break;
             } else
                 swap(arr, leftToRight, rightToLeft--);
         }
         
+        return rightToLeft;
     }
     
     public static void swap(int[] arr, int leftToRight, int rightToLeft) {
