@@ -7,9 +7,10 @@ public class QuickSort {
     
     public static void main(String[] args) {
         
-        int[] arr = new int[10];
+        int[] arr = new int[15];
         for ( int x = 0; x < arr.length; x++ ) {
             arr[x] = new Random().nextInt(20);
+            
         }
         System.out.println(Arrays.toString(arr));
         sort(arr, 0, arr.length - 1);
@@ -19,7 +20,7 @@ public class QuickSort {
     
     public static void sort(int[] arr, int l, int h) {
         if ( l < h ) {
-            int pivot = partition(arr, l, h);            
+            int pivot = partition(arr, l, h);
             sort(arr, l, pivot - 1);
             sort(arr, pivot + 1, h);
         }
@@ -31,21 +32,18 @@ public class QuickSort {
         int leftToRight = l + 1;
         int rightToLeft = h;
         
-        while ( true ) {
-            
-            while ( leftToRight < h && arr[leftToRight] < pivot )
+        while ( leftToRight <= rightToLeft ) {
+            while ( leftToRight < arr.length && arr[leftToRight] < pivot )
                 leftToRight++;
             
-            while ( rightToLeft > l && arr[rightToLeft] > pivot )
+            while ( rightToLeft > 0 && arr[rightToLeft] > pivot )
                 rightToLeft--;
             
-            if ( rightToLeft < leftToRight ) {
-                swap(arr, rightToLeft, l);
-                break;
-            } else
-                swap(arr, leftToRight, rightToLeft--);
+            if ( rightToLeft >= leftToRight )
+                swap(arr, leftToRight++, rightToLeft--);
         }
         
+        swap(arr, rightToLeft, l);
         return rightToLeft;
     }
     
